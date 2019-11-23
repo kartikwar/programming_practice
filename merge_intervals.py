@@ -11,7 +11,13 @@ class Solution:
 	def insert(self, intervals, newInterval):
 		start = newInterval.start
 		end = newInterval.end
+		
 		right = left = 0
+
+		#right is current pointer
+
+		# left is the pointer when newinterval is greater 
+
 		while right < len(intervals):
 			if start <= intervals[right].end:
 				if end < intervals[right].start:
