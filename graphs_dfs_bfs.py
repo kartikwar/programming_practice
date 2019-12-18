@@ -8,12 +8,32 @@ class GRAPH:
 		self.adjacency = adjacency
 	
 	def breadth_first_traversal(self, startnode):
+		print('********************************')
+		print('breadth first traversal')
 		queue = deque([startnode])
 
 		seen_nodes = set([])
 
 		while queue:
 			curr_node = queue.popleft()
+
+			if curr_node not in seen_nodes:
+			
+				seen_nodes.add(curr_node)
+				print('node is ', curr_node)
+
+				for node in self.adjacency[curr_node]:
+					queue.append(node)
+	
+	def depth_first_traversal(self, startnode):
+		print('********************************')
+		print('depth first traversal')
+		queue = deque([startnode])
+
+		seen_nodes = set([])
+
+		while queue:
+			curr_node = queue.pop()
 
 			if curr_node not in seen_nodes:
 			
@@ -40,4 +60,5 @@ if __name__ == "__main__":
 		'f' : set(['d', 'c'])
 	})
 	g.breadth_first_traversal('a')
+	g.depth_first_traversal('a')
 	# temp = 0
