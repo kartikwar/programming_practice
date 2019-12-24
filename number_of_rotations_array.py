@@ -19,13 +19,13 @@ class Solution:
 				number_of_rots = start
 				return start
 			else:
-			number_of_rots = 0
+				number_of_rots = 0
 		return number_of_rots            
 
 if __name__ == "__main__":
 	# A = [ 0,1,2, 3, 4, 5 ]
 	A = [5,0,1,2,3,4]
-	target = 9
+	# target = 9
 	# C = 6346
 	sol = Solution()
 	out = sol.search(A)

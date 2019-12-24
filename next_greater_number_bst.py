@@ -8,7 +8,7 @@ class TreeNode:
 		self.right = None
 
 	def parse_input(self):
-
+		pass
 
 	def insert_node(self, root):
 		if root == None:
