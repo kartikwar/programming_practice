@@ -27,16 +27,47 @@ class Solution:
 					lps[i] = 0
 					i = i + 1
 		return lps
-
 	
-	def solve(self, A):
-		self.pattern = A + '_' + ''.join(reversed(A))
-		return len(A) - self.computeTemporaryArray()[-1], self.computeTemporaryArray()
+	def solve_(self, A):
+		if len(A) <= 1:
+			return 0
 		
+		start, end, palin_at = 0, len(A) - 1, len(A) - 1
+		
+		while start < end:
+			if A[start] == A[end]:
+				start += 1
+				end -= 1
+			else:
+				end = palin_at - 1
+				palin_at = end
+				start = 0
+		
+		return len(A) - 1 - palin_at
+	
+
+	def solve(self, A):
+		if len(A) <= 1:
+			return 0
+		
+		palin_at = len(A) - 1
+		start = 0
+		end = len(A) - 1
+	
+		while start <= end:
+			if A[start] == A[end]:
+				start = start + 1
+				end = end - 1
+			else:
+				end = palin_at - 1
+				palin_at = end
+				start = 0
+		
+		return len(A) - (1 + palin_at)
 		
 if __name__ == "__main__":
-	A = 'AACECAAAA'
+	A = 'babb'
 	# A = []
 	sol = Solution()
-	out, _ = sol.solve(A=A)
+	out = sol.solve_(A=A)
 	pass
