@@ -56,5 +56,5 @@ if __name__ == "__main__":
 		'f' : set(['d', 'c'])
 	})
 	g.breadth_first_traversal('a')
-	g.depth_first_traversal('a')
+	g.depth_first_traversal('c')
 	# temp = 0
