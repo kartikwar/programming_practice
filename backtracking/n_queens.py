@@ -57,6 +57,9 @@ class Solution:
                     #if no combinations are possible, set position as empty
                     board[row][column] = '.'
         
+        #a list changes in place so good to store structure,
+        #in case you want a structure to change in each fn call,
+        #use slicing or list.copy()
         ans = list()
         solve(board,0,ans)
         return ans

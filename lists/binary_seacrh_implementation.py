@@ -1,4 +1,4 @@
-
+#binary search leads to a faster search in a sorted list
 
 def binary_search(a, value):
 	status = False

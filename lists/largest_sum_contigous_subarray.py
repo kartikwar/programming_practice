@@ -2,13 +2,6 @@ import math
 import sys
 
 class Solution:
-
-	def local_maximum(self, i, A):
-		if i == len(A) -1 :
-			return A[i]
-		else:
-			return max(A[i], A[i] + self.local_maximum(i-1, A)) 
-
 	"""
 	returns smallest sum
 	"""

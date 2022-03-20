@@ -1,5 +1,11 @@
 from collections import deque
 
+
+#in dfs all children are explored first
+#i.e. like binary tree traversal
+
+#in bfs all nodes at same level are explored first before 
+#exploring the children 
 class GRAPH:
 
 	def __init__(self,adjacency):
@@ -56,5 +62,5 @@ if __name__ == "__main__":
 		'f' : set(['d', 'c'])
 	})
 	g.breadth_first_traversal('a')
-	g.depth_first_traversal('c')
+	g.depth_first_traversal('a')
 	# temp = 0

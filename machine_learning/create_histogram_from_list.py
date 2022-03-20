@@ -12,9 +12,9 @@ out = [4,5,9,9,10,15,23,56,78]
 from matplotlib import pyplot as plt
 import math
 
-def split_in_bins(data, bins):
-    plt.hist(data, bins=3)
-    plt.show()
+# def split_in_bins(data, bins):
+#     plt.hist(data, bins=3)
+#     plt.show()
 
 def split_in_bins(data, bins):
     width = math.ceil((max(data) - min(data))/bins)
