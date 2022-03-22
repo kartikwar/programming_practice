@@ -8,59 +8,26 @@ class Solution:
 	# @param intervals, a list of Intervals
 	# @param new_interval, a Interval
 	# @return a list of Interval
-	def insert(self, intervals, new_interval):
-		output = []
-		overlapping_intervals = []
+	def insert(self, intervals, newInterval):
+		start = newInterval.start
+		end = newInterval.end
+		
+		right = left = 0
 
-		insert_point = -1
-		
-		input_0 = min(new_interval.start, new_interval.end)
-		input_1 = max(new_interval.start, new_interval.end)
-		
-		# lower = None
-		# upper = None
-		
-		# append_status = True
-		# output.append(Interval(1,5))
-		
-		appending_indexs = []
+		#right is current pointer
 
+		# left is the pointer when newinterval is greater 
 
-		for index, inter in enumerate(intervals):	
-			if not (max(input_0, inter.start) > min(input_1, inter.end)):
-				overlapping_intervals.append(inter)
-				appending_indexs.append(index)
+		while right < len(intervals):
+			if start <= intervals[right].end:
+				if end < intervals[right].start:
+					break
+				start = min(start, intervals[right].start)
+				end = max(end, intervals[right].end)
 			else:
-				if max(input_0, input_1) < max(inter.start, inter.end):
-					if insert_point == -1:
-						insert_point = index
-				output.append(inter)
-
-		overlapping_starts = [a.start for a in overlapping_intervals]
-
-		overlapping_ends = [a.end for a in overlapping_intervals]
-
-		over_start = min(overlapping_starts + [input_0])
-
-		over_end = max(overlapping_ends + [input_1])
-			
-		over_interval = Interval(over_start, over_end)
-
-		if len(appending_indexs):
-			insert_point = appending_indexs[0]
-			output.insert(insert_point, over_interval)
-		else:
-			#find insert point
-			if insert_point == -1:
-				output.append(Interval(input_0, input_1))
-			else:
-				output.insert(insert_point, Interval(input_0, input_1))
-
-
-		
-
-		self.output	 = output	
-		return output 
+				left += 1
+			right += 1
+		return intervals[:left] + [Interval(start, end)] + intervals[right:]
 		
 		
 	def print_intervals(self, intervals):
@@ -73,9 +40,9 @@ class Solution:
 
 if __name__ == "__main__":
 
-	intervals =  [ (1, 2), (3, 6) ]
+	intervals =  [ (1, 3), (6, 9) ]
 
-	new_interval = (8,10)
+	new_interval = (2,5)
 
 
 	intervals = [Interval(a[0], a[1]) for a in intervals]
