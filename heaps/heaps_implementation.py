@@ -2,14 +2,25 @@
 Implementation of heap sort (ascending) in python
 sort an array (ascending order) using the heap data structure
 in a heap data structure the parent node is always greater 
-than or equal to the child node  
+than or equal to the child node
+
+heap is something like this
+suppose
+A= [4,10,3,5,1,6,7]
+
+after building heap it should look like this
+
+            10
+    5               7
+   4 1             6 3
+
 """
 
 def heapsort(A):
    #start heapifying from bottom to top
    build_max_heap(A)
    #once its heapified properly, start heapyfying from top to bottom 
-   # since swap happens b/w top and bottom only
+   # since swap happens b/w top(max) and bottom(minimum) only
    for i in range(len(A) - 1, 0, -1):
        A[0], A[i] = A[i], A[0]
        max_heapify(A, index=0, size=i)
