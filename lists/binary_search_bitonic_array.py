@@ -4,7 +4,6 @@ Given a bitonic sequence A of N distinct elements, write a program to find a
 given element B in the bitonic sequence in O(logN) time.
 
 NOTE:
-
 A Bitonic Sequence is a sequence of numbers which is first 
 strictly increasing then after a point strictly decreasing.
 """
