@@ -68,25 +68,27 @@ class BinarySearchTree():
 		return status
 	
 	# left, root, right
-	def in_order_traversal(self, root):
+	def in_order_traversal(self, root, values):
 		if root is None:
-			return 1
+			return 1, values
 		else:
-			self.in_order_traversal(root.left)
-			print(root.value)
-			self.in_order_traversal(root.right)
-		return 1
+			self.in_order_traversal(root.left, values)
+			# print(root.value)
+			values.append(root.value)
+			self.in_order_traversal(root.right, values)
+		return 1, values
 	
 	# root, left, right
-	def pre_order_traversal(self, root):
+	def pre_order_traversal(self, root, values):
 		if root is None:
-			return 1
+			return 1, values
 		else:
 			# self.pre_order_traversal(root)
 			print(root.value)
-			self.pre_order_traversal(root.left)
-			self.pre_order_traversal(root.right)
-		return 1
+			values.append(root.value)
+			_, values = self.pre_order_traversal(root.left, values)
+			_, values = self.pre_order_traversal(root.right, values)
+		return 1, values
 	
 	# left, right, root
 	def post_order_traversal(self, root):
@@ -143,8 +145,9 @@ class BinarySearchTree():
 				return status
 
 if __name__ == "__main__":
-	values = [8, 3, 10, 14, 1,6, 4, 7, 13]
+	values = [7, 5, 2, 10, 9, 7, 8, 10]
 	tree = BinarySearchTree(values)
+	_, values = tree.in_order_traversal(root=tree.root, values=[])
 	found = tree.search_tree(root=tree.root, value=38)
 	tree.post_order_traversal(root=tree.root)
 	flipped_tree = tree.flip_tree(root = tree.root)
