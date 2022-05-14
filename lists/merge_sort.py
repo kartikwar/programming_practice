@@ -1,62 +1,44 @@
-import math
-
 class Solution:
-	# @param A : list of integers
-	# @return a list of integers
 
-	def merge(self, X, y, x):
-		i = j = k = 0
-		# while i < len()
-		# Copy data to temp arrays L[] and R[] 
-		# while i < len(X) and j < len(y): 
-		# 	if X[i] < y[j]: 
-		# 		x[k] = X[i] 
-		# 		i+=1
-		# 	else: 
-		# 		x[k] = y[j] 
-		# 		j+=1
-		# 	k+=1
-				
-		return sorted(X +y)
-
-	def sort(self, x):
-
-		if len(x) > 1:
-		
-			mid = int(len(x)/2)
+	def merge_sort(self, a):
+		if len(a) > 1:
+			left_arr = a[:len(a)//2]
+			right_arr = a[len(a)//2:]
 			
-			X, y = x[:mid], x[mid:]
+			#recursively sort till one element 
+			#is left, array is sorted with one element
+			self.merge_sort(left_arr)
+			self.merge_sort(right_arr)
 
-			# if len(X) == 1 and len(y) ==1:
-			# 	temp = self.organize(X, y)
-			# 	return self.organize(X, y)
-		
+			#start merging left and right arrays
+			i = 0 # index of left array
+			j = 0 # index of riht array
+			k = 0 #index of merged array
 
-		else:
-			return x
+			while i < len(left_arr) and j < len(right_arr):
+				#compare
+				if left_arr[i] > right_arr[j]:
+					a[k] = right_arr[j]
+					j += 1
+				else:
+					a[k] = left_arr[i]
+					i += 1
+				k += 1
 
-		B = self.merge(self.sort(X), self.sort(y), x)
-		
-		return B
+			# if left_arr was exhausted
+			while j < len(right_arr):
+				a[k] = right_arr[j]
+				k += 1
+				j += 1
 
-	def solve(self, A):
-		mid = int(len(A)/2)
-
-		if A and len(A):
-
-			A = self.sort(A)
-			# return sorted(A)
-			# Traverse through 1 to len(A) 
-			# for i in range(1, len(A)): 
-
-    
-
-		return A
+			# if right_arr was exhausted
+			while i < len(left_arr):
+				a[k] = left_arr[i]
+				k += 1
+				i += 1
 
 if __name__ == "__main__":
 	A = [9, 6,2, 1, 7, 8, 5]
-
-	# A = []
 	sol = Solution()
-	out = sol.solve(A=A)
-	pass
+	sol.merge_sort(A)
+	print(A)
