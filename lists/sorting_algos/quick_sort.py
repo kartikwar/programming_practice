@@ -1,6 +1,3 @@
-from pandas import pivot
-
-
 def q_sort(values):
     start = 0
     end = len(values) -1
@@ -15,11 +12,8 @@ def q_sort(values):
             values[0], values[1] = values[1], values[0]
         return values
 
-    # if len(values) > 0:
     pivot = values[start]
-
-    # if pivot is not None:
-
+ 
     while start < end:
 
     #find first greater value:
@@ -49,8 +43,6 @@ def q_sort(values):
         values[0], values[end] = values[end], values[0]
 
     partition_index = end
-    # end_index = len(values) -1
-    # start_index = 0
 
     left_array, right_array = [], []
 
@@ -63,14 +55,8 @@ def q_sort(values):
         right_array = values[1:]
         values = left_array + q_sort(right_array)
 
-    # values = q_sort(left_array) +   q_sort(right_array) 
-
     return values
-
 
 if __name__ == '__main__':
     values = [7,6,10,5,9,2,1,15,7]
-    # values = [9,15,10]
-    # values = [15,10]
-    # values = [2,6,7,5,1]
     print(q_sort(values))
