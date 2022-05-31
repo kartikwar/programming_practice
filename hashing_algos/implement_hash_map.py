@@ -4,12 +4,15 @@ the time complexity of accessing an element
 O(1) in general, in python dicts are the 
 in built hash map and we dont need to implement
 this. This file just gives an insight into how
-hash maps work."""
+hash maps work.
+Note that this also implements collision i.e. if two 
+keys have same hash index, it stores both of them
+"""
 
 class HashMap():
     def __init__(self):
-        MAX_LENGTH = 100
-        self.values = [None]*MAX_LENGTH
+        MAX_LENGTH = 10
+        self.values = [[] for i in range(MAX_LENGTH)]
         self.MAX_LENGTH = MAX_LENGTH
 
     def get_hash(self, key):
@@ -23,17 +26,33 @@ class HashMap():
 
     def __setitem__(self, key, value):
         index = self.get_hash(key)
-        self.values[index] = value
+        found = False
+        for i, ele in enumerate(self.values[index]):
+            if ele[0] == key:
+               self.values[index][i] = (key, value)
+               found = True
+               break
+        if not found:
+            self.values[index].append((key,value))
 
     def __getitem__(self, key):
         index = self.get_hash(key)
-        assert self.values[index] != None, "key not found"
-        return self.values[index]
+        found = False
+        for i, ele in enumerate(self.values[index]):
+            if ele[0] == key:
+            #    self.values[index][i] = (key, value)
+               found = True
+               return ele[1]
+        assert found == False, "key not found"
+        # return ele[1]
 
     def __delitem__(self, key):
         index = self.get_hash(key)
-        assert(self.values[index] != None)
-        self.values[index] = None
+        for i, ele in enumerate(self.values[index]):
+            if ele[0] == key:
+               del self.values[index][i]
+        # assert(self.values[index] != None)
+        # self.values[index] = None
 
     def __str__(self):
         return "%a"%self.values 
@@ -41,12 +60,18 @@ class HashMap():
 
 if __name__ == '__main__':
     hash_map = HashMap()
-    hash_map['lol'] = 12
+    print(hash_map.get_hash('march 6'))
+    hash_map['march 6'] = 6
     # hash_map[12] = 123
     print(hash_map)
-    print(hash_map['lol'])
+    hash_map['march 17'] = 17
+    print(hash_map['march 6'])
+    print(hash_map['march 17'])
+    hash_map['march 17'] = 34
+    print(hash_map)
     # print(hash_map['bro'])
     del(hash_map['lol'])
+    del(hash_map['march 17'])
     print(hash_map)
         
 
