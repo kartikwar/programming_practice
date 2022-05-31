@@ -58,5 +58,5 @@ def q_sort(values):
     return values
 
 if __name__ == '__main__':
-    values = [7,6,10,5,9,2,1,15,7]
+    values = [2,1,3]
     print(q_sort(values))
