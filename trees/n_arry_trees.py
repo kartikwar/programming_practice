@@ -23,8 +23,6 @@ class NArryNode():
         self.value = value
         self.children = []
         
-    
-
 class NArryTree():
     def __init__(self, values):
         self.values = values
