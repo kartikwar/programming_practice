@@ -1,27 +1,28 @@
 '''
-to do:- make image and kernel as 2d numpy arrays 
-and then do it
+implement a convolutional 2d algorithm
+using only numpy and lists
 '''
 
+import numpy as np
+
+
 def convolution2d(image, kernel):
-    out = None
-    K = len(kernel)
-    I = len(image)
+    K = kernel.shape[0]
+    I = image.shape[0]
     output = []
-    for i in range(0, I , I - K):
+    for i in range(0, I-K+1):
         outj = []
-        for j in range(0, I, I - K):
-            # outj = []
-            for k in range(K):
-                res = image[i][j] * kernel[k]
-                outj.append(res)
-            temp = 0
-        # outi.append(outj)
+        for j in range(0, I-K+1):
+            res = np.sum(image[i:i+K, j:j+K] * kernel)
+            outj.append(res)
+
         output.append(outj)
-    return output
+
+    return np.array(output)
 
 
 if __name__ == '__main__':
-    image = [[1,2], [2,3]]
-    kernel = [2]
-    print(convolution2d(image, kernel))
+    image = np.array([[1,2,3], [2,3,4], [3,4,5]])
+    kernel = np.array([[1,1,1,1], [2,2,2,2], [3,3,3,3], [4,4,4,4]])  
+    out = convolution2d(image, kernel)
+    temp = 0
