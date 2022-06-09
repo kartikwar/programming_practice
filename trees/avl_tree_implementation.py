@@ -7,7 +7,7 @@ Since these are balanced the search time complexity
 is O(logN), even in worst case scenarios.
 
 Where as in normal BSTs, it can go upto O(N). Hence
-AVL trees are a very imp. data structure to store 
+AVL trees are very imp. data structures to store 
 information.
 
 This is the python implementation of AVL trees.
