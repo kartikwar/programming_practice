@@ -15,7 +15,6 @@ def convolution2d(image, kernel):
         for j in range(0, I-K+1):
             res = np.sum(image[i:i+K, j:j+K] * kernel)
             outj.append(res)
-
         output.append(outj)
 
     return np.array(output)
