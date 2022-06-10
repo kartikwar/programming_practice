@@ -26,7 +26,7 @@ class Node():
         #and leaf node will have a height of 0
         self.height = 0
 
-
+#to do:- add remove method
 class AVLTree():
     def __init__(self):
         self.root = None
@@ -63,4 +63,4 @@ if __name__ == '__main__':
     tree = AVLTree()
     for val in values:
         tree.insert_node(tree.root, val)
-    # temp = 0
+    temp = 0
