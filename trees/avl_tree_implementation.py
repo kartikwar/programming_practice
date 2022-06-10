@@ -13,8 +13,6 @@ information.
 This is the python implementation of AVL trees.
 '''
 
-import re
-
 
 class Node():
     def __init__(self, data, parent=None):
@@ -33,7 +31,6 @@ class AVLTree():
     def __init__(self):
         self.root = None
     
-    #to do:- add logic to update parents
     def insert_node(self, node, data):
         if self.root is None:
             self.root = Node(data)
@@ -44,9 +41,11 @@ class AVLTree():
 
         if node.data > data:
             node.left = self.insert_node(node.left, data)
+            node.left.parent = node
         else:
             node.right = self.insert_node(node.right, data)
-        
+            node.right.parent = node
+
         left_height, right_height = 0, 0
 
         if node.left:
@@ -64,4 +63,4 @@ if __name__ == '__main__':
     tree = AVLTree()
     for val in values:
         tree.insert_node(tree.root, val)
-    temp = 0
+    # temp = 0
