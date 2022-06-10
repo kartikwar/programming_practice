@@ -32,7 +32,8 @@ class Node():
 class AVLTree():
     def __init__(self):
         self.root = None
-        
+    
+    #to do:- add logic to update parents
     def insert_node(self, node, data):
         if self.root is None:
             self.root = Node(data)
@@ -46,6 +47,16 @@ class AVLTree():
         else:
             node.right = self.insert_node(node.right, data)
         
+        left_height, right_height = 0, 0
+
+        if node.left:
+            left_height = node.left.height
+        
+        if node.right:
+            right_height = node.right.height
+
+        node.height = max(left_height, right_height) + 1
+
         return node
 
 if __name__ == '__main__':
