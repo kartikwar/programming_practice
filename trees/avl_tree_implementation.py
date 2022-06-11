@@ -29,7 +29,6 @@ class Node():
         #and leaf node will have a height of 0
         self.height = 0
 
-#to do:- add remove method
 class AVLTree():
     def __init__(self):
         self.root = None
