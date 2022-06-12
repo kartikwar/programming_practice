@@ -14,7 +14,6 @@ This is the python implementation of AVL trees.
 '''
 
 
-
 class Node():
 	def __init__(self, data, parent=None):
 		self.data = data
@@ -92,6 +91,20 @@ class AVLTree():
 		else:
 			return node
 
+	def get_height(self, node):
+		if node is None:
+			return -1
+		else:
+			return node.height
+
+	def calculate_balance(self, node):
+		'''a node is imbalanced and requires rotations
+		if the balance factor is either greater than 
+		1 or less than -1'''
+		if node is None:
+			return 0
+		else:
+			return self.get_height(node.left) - self.get_height(node.right)
 
 	def pos_of_node(self, node):
 		is_left = False
@@ -141,10 +154,12 @@ class AVLTree():
 
 			else:
 				#node has two children
+				#first find the smallest element in right most tree
 				min_node = self.min_val_subtree(node.right)
+				#switch the curr node with that element
 				min_node.data, node.data = node.data, min_node.data
+				#recursively perform the same operation
 				self.remove_node(node.right, data)
-				temp = 0
 
 		elif node.data > data:
 			self.remove_node(node.left, data)
@@ -187,12 +202,8 @@ if __name__ == '__main__':
 	tree = AVLTree()
 	for val in values:
 		tree.insert_node(tree.root, val)
-
-	val = tree.min_val_subtree(tree.root.right)
+	# print(tree)
 	tree.remove_node(tree.root, 8)
 	print(tree)
-	# tree.remove_node(tree.root, 2)
-	# tree.remove_node(tree.root, 6)
-	# tree.remove_node(tree.root, 8)
-	# tree.remove_node(tree.root, 4)
-	temp = 0
+	print(tree.calculate_balance(tree.root.left))
+	
