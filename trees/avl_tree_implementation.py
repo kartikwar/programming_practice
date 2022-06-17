@@ -80,6 +80,14 @@ class AVLTree():
 			sep=' '*int(len(sep)/2) # cut separator size in half
 		return content
 	
+	def pos_of_node(self, node):
+		is_left = False
+		if node.parent.left:
+			if node.parent.left.data == node.data:
+				#current node is left node
+				is_left = True
+		return is_left
+
 	def min_val_subtree(self, node):
 		'''
 		find the min val in a subtree
@@ -104,15 +112,45 @@ class AVLTree():
 		if node is None:
 			return 0
 		else:
-			return self.get_height(node.left) - self.get_height(node.right)
+			return self.get_height(node.left) - self.get_height(node.right)	
 
-	def pos_of_node(self, node):
-		is_left = False
-		if node.parent.left:
-			if node.parent.left.data == node.data:
-				#current node is left node
-				is_left = True
-		return is_left
+
+	"""perform left rotation"""
+	def rotate_left(self, node):
+		pass
+
+	"""perform right rotation"""
+	def rotate_right(self, node):
+		pass
+
+
+	'''fix the violation of balance'''
+	def violation_helper(self, node):
+		balance = self.calculate_balance(node)
+		#left heavy
+		if balance > 1:
+			if self.calculate_balance(node.left) < 0:
+				#left right case
+				self.rotate_left(node.left)
+		self.rotate_right(node)
+
+		#right heavy:
+		if balance < -1:
+			if self.calculate_balance(node.right) > 0:
+				#right left case
+				self.rotate_right(node.right)
+		self.rotate_left(node)
+
+
+	'''check violation at parent node 
+	and if it exists, handle it'''
+	def handle_violation(self, node):
+		if node:
+			left_height = self.get_height(node.left)
+			right_height = self.get_height(node.right)
+			node.height = max(left_height, right_height) + 1
+			self.violation_helper(node)
+			node = node.parent
 
 	def remove_node(self, node, data):
 		if self.root is None:
