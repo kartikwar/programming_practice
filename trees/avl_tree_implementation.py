@@ -11,6 +11,19 @@ AVL trees are very imp. data structures to store
 information.
 
 This is the python implementation of AVL trees.
+
+Left vs right rotations
+
+
+		A							B
+
+	B		E					C		A
+
+C		D							D		E		
+
+			right rotation ---------> 
+			left rotation <---------
+
 '''
 
 
@@ -117,12 +130,38 @@ class AVLTree():
 
 	"""perform left rotation"""
 	def rotate_left(self, node):
-		pass
+		parent = node.parent
+		new_root = node.right
+		D = None
+		if new_root:
+			D = new_root.left
+		node.parent = new_root
+		node.right = D
+		#height computation
+		new_root.left.height = self.get_height(new_root.left)
+		new_root.right.height = self.get_height(new_root.right)
+		new_root.height = max(new_root.left.height, new_root.right.height) + 1
+		#parent assignment
+		parent.left = new_root
 
 	"""perform right rotation"""
 	def rotate_right(self, node):
-		pass
-
+		parent = node.parent
+		new_root = node.left
+		D = None
+		if new_root:
+			D = new_root.right
+		node.parent = new_root
+		node.left = D
+		node.height = max(self.get_height(node.left), self.get_height(node.right)) + 1
+		new_root.right = node
+		#height computation
+		new_root.left.height = self.get_height(new_root.left)
+		new_root.right.height = self.get_height(new_root.right)
+		new_root.height = max(new_root.left.height, new_root.right.height) + 1
+		#parent assignment
+		parent.right = new_root
+		new_root.parent = parent
 
 	'''fix the violation of balance'''
 	def violation_helper(self, node):
@@ -132,25 +171,31 @@ class AVLTree():
 			if self.calculate_balance(node.left) < 0:
 				#left right case
 				self.rotate_left(node.left)
-		self.rotate_right(node)
+			self.rotate_right(node)
 
 		#right heavy:
 		if balance < -1:
 			if self.calculate_balance(node.right) > 0:
 				#right left case
 				self.rotate_right(node.right)
-		self.rotate_left(node)
+			self.rotate_left(node)
 
 
 	'''check violation at parent node 
 	and if it exists, handle it'''
 	def handle_violation(self, node):
-		if node:
+		while node:
 			left_height = self.get_height(node.left)
 			right_height = self.get_height(node.right)
 			node.height = max(left_height, right_height) + 1
+			balance = self.calculate_balance(node)
+			if  balance > 1 or balance < -1:
+				temp = 0
 			self.violation_helper(node)
 			node = node.parent
+			# self.handle_violation(node)
+		# else:
+		# 	print('node is None')
 
 	def remove_node(self, node, data):
 		if self.root is None:
@@ -233,15 +278,17 @@ class AVLTree():
 
 		node.height = max(left_height, right_height) + 1
 
+		self.handle_violation(node)
 		return node
 
 if __name__ == '__main__':
-	values = [4,3,8,2, 6,9,5]
+	# values = [4,3,8,2, 6,9,5]
+	values = [32,10,55,1,19,41,16,12]
 	tree = AVLTree()
 	for val in values:
 		tree.insert_node(tree.root, val)
 	# print(tree)
-	tree.remove_node(tree.root, 8)
+	# tree.remove_node(tree.root, 8)
 	print(tree)
-	print(tree.calculate_balance(tree.root.left))
+	# print(tree.calculate_balance(tree.root.left))
 	
