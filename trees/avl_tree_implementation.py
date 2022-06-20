@@ -11,8 +11,20 @@ AVL trees are very imp. data structures to store
 information.
 
 This is the python implementation of AVL trees.
-'''
 
+Left vs right rotations
+
+
+		A							B
+
+	B		E					C		A
+
+C		D							D		E		
+
+			right rotation ---------> 
+			left rotation <---------
+
+'''
 
 
 class Node():
@@ -81,6 +93,14 @@ class AVLTree():
 			sep=' '*int(len(sep)/2) # cut separator size in half
 		return content
 	
+	def pos_of_node(self, node):
+		is_left = False
+		if node.parent.left:
+			if node.parent.left == node:
+				#current node is left node
+				is_left = True
+		return is_left
+
 	def min_val_subtree(self, node):
 		'''
 		find the min val in a subtree
@@ -92,14 +112,109 @@ class AVLTree():
 		else:
 			return node
 
+	def get_height(self, node):
+		if node is None:
+			return -1
+		else:
+			return node.height
 
-	def pos_of_node(self, node):
-		is_left = False
-		if node.parent.left:
-			if node.parent.left.data == node.data:
-				#current node is left node
-				is_left = True
-		return is_left
+	def calculate_balance(self, node):
+		'''a node is imbalanced and requires rotations
+		if the balance factor is either greater than 
+		1 or less than -1'''
+		if node is None:
+			return 0
+		else:
+			return self.get_height(node.left) - self.get_height(node.right)	
+
+
+	"""perform left rotation"""
+	def rotate_left(self, node):
+		print("Rotating to the left on node", node.data)
+		temp_left_node = node.right
+		t = temp_left_node.left
+		temp_left_node.left = node
+		node.right = t
+		if t is not None:
+			t.parent = node
+		temp_parent = node.parent
+		node.parent = temp_left_node
+		temp_left_node.parent = temp_parent
+
+		if temp_left_node.parent is not None and temp_left_node.parent.left == node:
+			temp_left_node.parent.left = temp_left_node
+
+		if temp_left_node.parent is not None and temp_left_node.parent.right == node:
+			temp_left_node.parent.right = temp_left_node
+
+		if node == self.root:
+			self.root = temp_left_node
+
+		node.height = max(self.get_height(node.left), self.get_height(node.right)) + 1
+		temp_left_node.height = max(self.get_height(temp_left_node.left), self.get_height(temp_left_node.right))
+
+	"""perform right rotation"""
+	def rotate_right(self, node):
+		print("Rotating to the right on node", node.data)
+		temp_left_node = node.left
+		t = temp_left_node.right
+		temp_left_node.right = node
+		node.left = t
+		if t is not None:
+			t.parent = node
+		temp_parent = node.parent
+		node.parent = temp_left_node
+		temp_left_node.parent = temp_parent
+
+		if temp_left_node.parent is not None and temp_left_node.parent.left == node:
+			temp_left_node.parent.left = temp_left_node
+
+		if temp_left_node.parent is not None and temp_left_node.parent.right == node:
+			temp_left_node.parent.right = temp_left_node
+
+		if node == self.root:
+			self.root = temp_left_node
+
+		node.height = max(self.get_height(node.left), self.get_height(node.right)) + 1
+		temp_left_node.height = max(self.get_height(temp_left_node.left), self.get_height(temp_left_node.right))
+
+
+	'''fix the violation of balance'''
+	def violation_helper(self, node):
+		balance = self.calculate_balance(node)
+		#left heavy
+		if balance > 1:
+			if self.calculate_balance(node.left) < 0:
+				#left right case
+				self.rotate_left(node.left)
+				temp = 0
+			self.rotate_right(node)
+
+		#right heavy:
+		if balance < -1:
+			if self.calculate_balance(node.right) > 0:
+				#right left case
+				self.rotate_right(node.right)
+			self.rotate_left(node)
+			temp = 0
+
+
+	'''check violation at parent node 
+	and if it exists, handle it'''
+	def handle_violation(self, node):
+		while node:
+			left_height = self.get_height(node.left)
+			right_height = self.get_height(node.right)
+			node.height = max(left_height, right_height) + 1
+			balance = self.calculate_balance(node)
+			if  balance > 1 or balance < -1:
+				print('balance violated at ', node.data)
+				temp = 0
+			self.violation_helper(node)
+			node = node.parent
+			# self.handle_violation(node)
+		# else:
+		# 	print('node is None')
 
 	def remove_node(self, node, data):
 		if self.root is None:
@@ -141,10 +256,12 @@ class AVLTree():
 
 			else:
 				#node has two children
+				#first find the smallest element in right most tree
 				min_node = self.min_val_subtree(node.right)
+				#switch the curr node with that element
 				min_node.data, node.data = node.data, min_node.data
+				#recursively perform the same operation
 				self.remove_node(node.right, data)
-				temp = 0
 
 		elif node.data > data:
 			self.remove_node(node.left, data)
@@ -154,45 +271,38 @@ class AVLTree():
 			# node.right.parent = node
 
 		return
-	
-	def insert_node(self, node, data):
+
+	def insert(self, data):
 		if self.root is None:
 			self.root = Node(data)
-			return self.root
-
-		if node is None:
-			return Node(data)
-
-		if node.data > data:
-			node.left = self.insert_node(node.left, data)
-			node.left.parent = node
 		else:
-			node.right = self.insert_node(node.right, data)
-			node.right.parent = node
-
-		left_height, right_height = 0, 0
-
-		if node.left:
-			left_height = node.left.height
+			self.insert_node(data, self.root)
 		
-		if node.right:
-			right_height = node.right.height
 
-		node.height = max(left_height, right_height) + 1
+	
+	def insert_node(self, data, node):
+		if data < node.data:
+			if node.left:
+				self.insert_node(data, node.left)
+			else:
+				node.left = Node(data, node)
+				node.height = max(self.get_height(node.left), self.get_height(node.right)) + 1
 
-		return node
+		else:
+			if node.right:
+				self.insert_node(data, node.right)
+			else:
+				node.right = Node(data, node)
+				node.height = max(self.get_height(node.left), self.get_height(node.right)) + 1	
+
+		self.handle_violation(node)
+
 
 if __name__ == '__main__':
-	values = [4,3,8,2, 6,9,5]
+	# values = [32,10,55,1,19,41,16,12]
+	# values = [12,19, 35, 56, 78, 91]
+	values = [49,24,61,72,58,52]
 	tree = AVLTree()
 	for val in values:
-		tree.insert_node(tree.root, val)
-
-	val = tree.min_val_subtree(tree.root.right)
-	tree.remove_node(tree.root, 8)
-	print(tree)
-	# tree.remove_node(tree.root, 2)
-	# tree.remove_node(tree.root, 6)
-	# tree.remove_node(tree.root, 8)
-	# tree.remove_node(tree.root, 4)
-	temp = 0
+		tree.insert(val)
+	print(tree)	
