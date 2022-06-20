@@ -96,7 +96,7 @@ class AVLTree():
 	def pos_of_node(self, node):
 		is_left = False
 		if node.parent.left:
-			if node.parent.left.data == node.data:
+			if node.parent.left == node:
 				#current node is left node
 				is_left = True
 		return is_left
@@ -131,7 +131,27 @@ class AVLTree():
 	"""perform left rotation"""
 	def rotate_left(self, node):
 		print("Rotating to the left on node", node.data)
-		print('left rotate coming soon')
+		temp_left_node = node.right
+		t = temp_left_node.left
+		temp_left_node.left = node
+		node.right = t
+		if t is not None:
+			t.parent = node
+		temp_parent = node.parent
+		node.parent = temp_left_node
+		temp_left_node.parent = temp_parent
+
+		if temp_left_node.parent is not None and temp_left_node.parent.left == node:
+			temp_left_node.parent.left = temp_left_node
+
+		if temp_left_node.parent is not None and temp_left_node.parent.right == node:
+			temp_left_node.parent.right = temp_left_node
+
+		if node == self.root:
+			self.root = temp_left_node
+
+		node.height = max(self.get_height(node.left), self.get_height(node.right)) + 1
+		temp_left_node.height = max(self.get_height(temp_left_node.left), self.get_height(temp_left_node.right))
 
 	"""perform right rotation"""
 	def rotate_right(self, node):
@@ -279,13 +299,10 @@ class AVLTree():
 
 
 if __name__ == '__main__':
-	# values = [4,3,8,2, 6,9,5]
-	values = [32,10,55,1,19,41,16,12]
+	# values = [32,10,55,1,19,41,16,12]
+	# values = [12,19, 35, 56, 78, 91]
+	values = [49,24,61,72,58,52]
 	tree = AVLTree()
 	for val in values:
 		tree.insert(val)
-	# print(tree)
-	# tree.remove_node(tree.root, 8)
-	print(tree)
-	# print(tree.calculate_balance(tree.root.left))
-	
+	print(tree)	
