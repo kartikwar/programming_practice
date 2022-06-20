@@ -130,38 +130,34 @@ class AVLTree():
 
 	"""perform left rotation"""
 	def rotate_left(self, node):
-		parent = node.parent
-		new_root = node.right
-		D = None
-		if new_root:
-			D = new_root.left
-		node.parent = new_root
-		node.right = D
-		#height computation
-		new_root.left.height = self.get_height(new_root.left)
-		new_root.right.height = self.get_height(new_root.right)
-		new_root.height = max(new_root.left.height, new_root.right.height) + 1
-		#parent assignment
-		parent.left = new_root
+		print("Rotating to the left on node", node.data)
+		print('left rotate coming soon')
 
 	"""perform right rotation"""
 	def rotate_right(self, node):
-		parent = node.parent
-		new_root = node.left
-		D = None
-		if new_root:
-			D = new_root.right
-		node.parent = new_root
-		node.left = D
+		print("Rotating to the right on node", node.data)
+		temp_left_node = node.left
+		t = temp_left_node.right
+		temp_left_node.right = node
+		node.left = t
+		if t is not None:
+			t.parent = node
+		temp_parent = node.parent
+		node.parent = temp_left_node
+		temp_left_node.parent = temp_parent
+
+		if temp_left_node.parent is not None and temp_left_node.parent.left == node:
+			temp_left_node.parent.left = temp_left_node
+
+		if temp_left_node.parent is not None and temp_left_node.parent.right == node:
+			temp_left_node.parent.right = temp_left_node
+
+		if node == self.root:
+			self.root = temp_left_node
+
 		node.height = max(self.get_height(node.left), self.get_height(node.right)) + 1
-		new_root.right = node
-		#height computation
-		new_root.left.height = self.get_height(new_root.left)
-		new_root.right.height = self.get_height(new_root.right)
-		new_root.height = max(new_root.left.height, new_root.right.height) + 1
-		#parent assignment
-		parent.right = new_root
-		new_root.parent = parent
+		temp_left_node.height = max(self.get_height(temp_left_node.left), self.get_height(temp_left_node.right))
+
 
 	'''fix the violation of balance'''
 	def violation_helper(self, node):
@@ -171,6 +167,7 @@ class AVLTree():
 			if self.calculate_balance(node.left) < 0:
 				#left right case
 				self.rotate_left(node.left)
+				temp = 0
 			self.rotate_right(node)
 
 		#right heavy:
@@ -179,6 +176,7 @@ class AVLTree():
 				#right left case
 				self.rotate_right(node.right)
 			self.rotate_left(node)
+			temp = 0
 
 
 	'''check violation at parent node 
@@ -190,6 +188,7 @@ class AVLTree():
 			node.height = max(left_height, right_height) + 1
 			balance = self.calculate_balance(node)
 			if  balance > 1 or balance < -1:
+				print('balance violated at ', node.data)
 				temp = 0
 			self.violation_helper(node)
 			node = node.parent
@@ -252,41 +251,39 @@ class AVLTree():
 			# node.right.parent = node
 
 		return
-	
-	def insert_node(self, node, data):
+
+	def insert(self, data):
 		if self.root is None:
 			self.root = Node(data)
-			return self.root
-
-		if node is None:
-			return Node(data)
-
-		if node.data > data:
-			node.left = self.insert_node(node.left, data)
-			node.left.parent = node
 		else:
-			node.right = self.insert_node(node.right, data)
-			node.right.parent = node
-
-		left_height, right_height = 0, 0
-
-		if node.left:
-			left_height = node.left.height
+			self.insert_node(data, self.root)
 		
-		if node.right:
-			right_height = node.right.height
 
-		node.height = max(left_height, right_height) + 1
+	
+	def insert_node(self, data, node):
+		if data < node.data:
+			if node.left:
+				self.insert_node(data, node.left)
+			else:
+				node.left = Node(data, node)
+				node.height = max(self.get_height(node.left), self.get_height(node.right)) + 1
+
+		else:
+			if node.right:
+				self.insert_node(data, node.right)
+			else:
+				node.right = Node(data, node)
+				node.height = max(self.get_height(node.left), self.get_height(node.right)) + 1	
 
 		self.handle_violation(node)
-		return node
+
 
 if __name__ == '__main__':
 	# values = [4,3,8,2, 6,9,5]
 	values = [32,10,55,1,19,41,16,12]
 	tree = AVLTree()
 	for val in values:
-		tree.insert_node(tree.root, val)
+		tree.insert(val)
 	# print(tree)
 	# tree.remove_node(tree.root, 8)
 	print(tree)
