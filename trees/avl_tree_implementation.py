@@ -229,6 +229,7 @@ class AVLTree():
 			if node.data == self.root.data:
 				#node is root node
 				self.root = None
+				# self.handle_violation
 
 			elif not (node.left or node.right):
 				#node is leaf node
@@ -238,8 +239,10 @@ class AVLTree():
 				else:
 					node.parent.right = None
 
+				self.handle_violation(node)
+
 			elif (node.left is None) != (node.right is None):
-				#atleast one node is None
+				#atleast one child is None
 				#find the position of node i.e. left vs right
 				is_left = self.pos_of_node(node)
 
@@ -254,6 +257,7 @@ class AVLTree():
 					else:
 						node.parent.right = node.right
 
+				self.handle_violation(node)
 			else:
 				#node has two children
 				#first find the smallest element in right most tree
@@ -299,10 +303,126 @@ class AVLTree():
 
 
 if __name__ == '__main__':
-	# values = [32,10,55,1,19,41,16,12]
+	values = [32,10,55,1,19,41,16,12]
 	# values = [12,19, 35, 56, 78, 91]
-	values = [49,24,61,72,58,52]
+	# values = [49,24,61,72,58,52]
 	tree = AVLTree()
 	for val in values:
 		tree.insert(val)
-	print(tree)	
+	print(tree)
+
+	tree.remove_node(tree.root, 16)
+	tree.remove_node(tree.root, 10)
+	tree.remove_node(tree.root, 12)
+	print(tree)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+		
