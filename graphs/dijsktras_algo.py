@@ -1,3 +1,25 @@
+'''
+Dijsktras algorithm is used to find the shortest path from 
+start node to end node. 
+
+It is a greedy algorithm that tries to find the shortest route 
+for each given node in a graph.
+
+Since its greedy, it decides which node to visit next, 
+based on which node is currently at minium distance from 
+the start node
+
+Its also dynamic in nature i.e the distances are updated dynamically, 
+since you might find a path for any given node which is shorter than 
+earlier shortest path.
+
+This is a adjacency matrix represnentation of this algo. In adjacency 
+list representation heap is used which makes the implementation faster
+than this one.
+
+For visualization see the figure dijsktras_algo.png
+'''
+
 import sys
 
 class Node:
@@ -87,8 +109,8 @@ if __name__ == '__main__':
         [0, 0, 7, 0, 0, 6, 0, 0],
     ]
 
-    import numpy as np
-    print(np.shape(np.array(adjancy_matrix)))
+    # import numpy as np
+    # print(np.shape(np.array(adjancy_matrix)))
 
     da = DijsktrasAlgo(adjancy_matrix)
     print(da.distances)
