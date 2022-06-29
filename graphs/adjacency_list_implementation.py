@@ -1,8 +1,19 @@
-#in dfs all children are explored first
-#i.e. like binary tree traversal
+"""
+in dfs all children are explored first
+i.e. like binary tree traversal
 
-#in bfs all nodes at same level are explored first before 
-#exploring the children 
+in bfs all nodes at same level are explored first before 
+exploring the children
+
+
+Memory complexity of BFS is O(N), where as for DFS it is O(logN)
+
+This is the reason generally DFS is preferred over BFS
+
+Time complexity of BFS and DFS is O(V + E). 
+where V is the number of vertices and E is the number of edges
+
+"""
 
 class Node:
 	def __init__(self, name):
