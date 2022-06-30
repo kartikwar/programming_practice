@@ -27,6 +27,7 @@ class Node:
         self.name = name
         self.visited = False
         self.index = index
+        self.shortest_path = []
 
 class DijsktrasAlgo:
     def __init__(self, adjancy_matrix):
@@ -41,6 +42,8 @@ class DijsktrasAlgo:
         for i in range(len(self.adjancy_matrix)):
             name = chr(i % 26 + 65)  
             node = Node(name, i, self.adjancy_matrix)
+            # if i ==0 :
+            #     node.shortest_path = ['A']
             nodes.append(node)
         return nodes
 
@@ -71,6 +74,7 @@ class DijsktrasAlgo:
             if weights[i] != 0:
                 if curr_distance + weights[i] < self.distances[i]:
                     self.distances[i] = curr_distance + weights[i]
+                    self.nodes[i].shortest_path = curr_node.shortest_path +  [curr_node.name]
 
     def calculate(self):
         node_index = 0
@@ -91,26 +95,32 @@ class DijsktrasAlgo:
 
 
 if __name__ == '__main__':
-    # adjancy_matrix = [[0, 7, 5, 2, 0, 0],
-    #                    [7 , 0, 0, 0, 3, 0],
-    #                    [5, 0, 0, 10, 4, 0],
-    #                    [2, 0, 10, 0, 0, 2],
-    #                    [0, 3, 4, 0, 0, 6], 
-    #                    [0, 0, 0, 2, 6, 0]]
+    adjancy_matrix = [[0, 7, 5, 2, 0, 0],
+                       [7 , 0, 0, 0, 3, 0],
+                       [5, 0, 0, 10, 4, 0],
+                       [2, 0, 10, 0, 0, 2],
+                       [0, 3, 4, 0, 0, 6], 
+                       [0, 0, 0, 2, 6, 0]]
 
-    adjancy_matrix = [
-        [0, 5, 0, 0, 9, 0, 0, 8],
-        [0, 0, 12, 15, 0, 0, 0, 0],
-        [0, 0, 0, 3, 0, 0, 11, 0],
-        [0, 0, 0, 0, 0, 0, 9, 0],
-        [0, 0, 0, 0, 0, 4, 20, 5],
-        [0, 0, 1, 0, 0, 0, 13, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 7, 0, 0, 6, 0, 0],
-    ]
+    # adjancy_matrix = [
+    #     [0, 5, 0, 0, 9, 0, 0, 8],
+    #     [0, 0, 12, 15, 0, 0, 0, 0],
+    #     [0, 0, 0, 3, 0, 0, 11, 0],
+    #     [0, 0, 0, 0, 0, 0, 9, 0],
+    #     [0, 0, 0, 0, 0, 4, 20, 5],
+    #     [0, 0, 1, 0, 0, 0, 13, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 7, 0, 0, 6, 0, 0],
+    # ]
 
     # import numpy as np
     # print(np.shape(np.array(adjancy_matrix)))
 
     da = DijsktrasAlgo(adjancy_matrix)
     print(da.distances)
+    # print(da.nodes[-1].shortest_path)
+
+    for node in da.nodes:
+        print('for node ', node.name)
+        print('shortest distance is ')
+        print(node.shortest_path)
