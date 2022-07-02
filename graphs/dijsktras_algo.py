@@ -6,7 +6,7 @@ It is a greedy algorithm that tries to find the shortest route
 for each given node in a graph.
 
 Since its greedy, it decides which node to visit next, 
-based on which node is currently at minium distance from 
+based on which node is currently at minimum distance from 
 the start node
 
 Its also dynamic in nature i.e the distances are updated dynamically, 

@@ -1,3 +1,18 @@
+'''
+sorting algo.
+makes use of a pivot element (which can either be chosen as first ele, 
+last ele or middle ele)
+
+the pivot elements job is to form a new array like this
+
+partition 1 - pivot ele - partition 2
+
+where partition 1 has all the values less than pivot ele
+
+partition 2 has all values greater than pivot ele
+'''
+
+
 def q_sort(values):
     start = 0
     end = len(values) -1
@@ -58,5 +73,5 @@ def q_sort(values):
     return values
 
 if __name__ == '__main__':
-    values = [2,1,3]
+    values = [5,3,1,2,4]
     print(q_sort(values))
