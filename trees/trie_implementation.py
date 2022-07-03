@@ -1,3 +1,28 @@
+'''
+Trie data structure is a n-ary tree structure. 
+Hence each node can have multiple children 
+Trie data structures are used when there are a lot of 
+sub strings common in words. 
+
+                        *
+
+            B                       S
+
+      A        E                    A      
+
+  T                 L               T    
+
+$                       L           $
+                            $
+
+
+In the above trie implementation * denotes the root node.
+$ denotes the end of word.
+
+The words in this trie are bat, bell and sat
+'''
+
+
 class TrieNode:
   def __init__(self, letter):
     self.letter = letter

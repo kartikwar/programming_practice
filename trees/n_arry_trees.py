@@ -64,5 +64,6 @@ class NArryTree():
                 
 if __name__ == '__main__':
     tree = NArryTree([1, None, 3,2,4,None, 5,6])
+    #root, left, right
     print(tree.pre_order([], tree.root))
     temp = 0

@@ -13,74 +13,64 @@ Output : 5
 Question link :- geeksforgeeks.org/find-number-of-islands/
 """
 
+# from sklearn import neighbors
 
 
+def get_neighbours(A, pos, visitor_stack, visited):
+    i, j = pos
+    neighbours = []
+
+    if j -1 in range(len(A)):
+        neighbours.append((i, j-1))
+    if j + 1 in range(len(A)):
+        neighbours.append((i, j+1))
+    if i -1 in range(len(A)):
+        neighbours.append((i-1, j))
+    if i + 1 in range(len(A)):
+        neighbours.append((i+1, j))
+
+    valid_neighbours = []
+    found = False
+    for row_i, col_i in neighbours:
+        if visited[row_i][col_i] == False:
+            if (row_i, col_i) not in visitor_stack:
+                valid_neighbours.append((row_i, col_i))
+                if A[row_i][col_i] == 1:
+                    found = True
+    if not found:
+        valid_neighbours = []    
+
+    return valid_neighbours
+    
 def count_islands(A):
     count = 0
     #can be optimized by using a 2d array of visited, visited positions can be set to 1
     #and non visited can remain 0, but for now just using append logic
-    visited = []
-    positions = []
+    visited = [[False for i in range(len(A))] for j in range(len(A))]
+    
+    visitor_stack = []
     
     for row in range(len(A)):
         for col in range(len(A)):
-            if (row, col) in visited:
+            if visited[row][col]:
                 continue
             else:
                 ele = A[row][col]
-                if len(positions) == 0 and ele == 1:
+                if ele == 1:
                     count += 1
-                    positions.append((row, col))
+                    visitor_stack.append((row, col))
 
             #apply dfs algo
-            while(len(positions)!=0):
+            while(len(visitor_stack)):
                 # for pos in positions:
-                pos = positions.pop(0)
-                row_, col_ = pos
-                neighbour_present = False
-                
-                valid_neighbours = []
+                pos = visitor_stack.pop(0)
+                visitor_stack += get_neighbours(A, pos, visitor_stack, visited)
+                visited[pos[0]][pos[1]] = True
 
-                if col_-1 in range(len(A)):
-                    neighbour = (row_, col_-1)
-                    if (A[row_][col_-1] == 1) and (neighbour not in positions) and (neighbour not in visited):
-                        neighbour_present = True
-                    valid_neighbours.append(neighbour)
-
-                if col_ + 1 in range(len(A)):
-                    neightbour = (row_, col_ + 1)
-                    if A[row_][col_+1] == 1 and (neightbour not in positions) and (neightbour not in visited):
-                        neighbour_present = True
-                    valid_neighbours.append(neightbour)
-
-
-                if row_ + 1 in range(len(A)):
-                    neighbour = (row_ + 1, col_)
-                    if A[row_+1][col_] == 1 and (neighbour not in positions) and (neighbour not in visited):
-                        neighbour_present = True
-                    valid_neighbours.append(neighbour)
-
-                if row_ - 1 in range(len(A)):
-                    neighbour = (row_ - 1, col_)
-                    if A[row_ - 1][col_] == 1 and (neighbour not in positions) and (neighbour not in visited):
-                        neighbour_present = True
-                    valid_neighbours.append(neighbour)
-
-                if neighbour_present:
-                    #add all the valid neighbours
-                    valid_neighbours = [neighbour for neighbour in valid_neighbours if neighbour not in visited]
-                    valid_neighbours = [neighbour for neighbour in valid_neighbours if neighbour not in positions]
-                    positions += valid_neighbours
-                
-                visited.append(pos)
+            # visited[row][col] = True
 
 
     return count
-
-
-
-
-
 
 if __name__ == "__main__":
     A = [
