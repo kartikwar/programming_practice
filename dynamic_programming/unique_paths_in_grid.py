@@ -32,46 +32,36 @@ class Solution:
 
 	def uniquePathsWithObstacles(self, A):
 		rows, cols = len(A), len(A[0])
-		can_visit = [[0 for i in range(cols)] for j in range(rows)]
 		dp = [[0 for i in range(cols)] for j in range(rows)]
-		# dp[0][0] =1
 
 		if A[0][0] == 0:
-			can_visit[0][0] = 1
-
-		first_zero = False
+			dp[0][0] =1
 
 		for row in range(rows):
 			for col in range(cols):
 				if A[row][col] == 1:
 					continue
 				else:
-					if can_visit[row][col]:
-						update_row, update_col = 0, 0
-						curr_ele = A[row][col]
-						if not first_zero:
-							dp[row][col] =1
-							first_zero = True
-						if row < rows -1:
-							can_visit[row +1][col] =1
-							next_ele = A[row+1][col]
-							update_row = self.nor(curr_ele, next_ele)
-						if col < cols -1:
-							can_visit[row][col +1] =1
-							next_ele = A[row][col +1]
-							update_col = self.nor(curr_ele, next_ele)
-						if update_row:
-							dp[row+1][col] += dp[row][col]
-						if update_col:
-							dp[row][col+1] += dp[row][col]
+					update_row, update_col = 0, 0
+					curr_ele = A[row][col]
+				
+					if row < rows -1:
+						next_ele = A[row+1][col]
+						update_row = self.nor(curr_ele, next_ele)
+					if col < cols -1:
+						next_ele = A[row][col +1]
+						update_col = self.nor(curr_ele, next_ele)
+					if update_row:
+						dp[row+1][col] += dp[row][col]
+					if update_col:
+						dp[row][col+1] += dp[row][col]
 
 		return dp[rows-1][cols-1]
 
 
 
 
-
 if __name__ == '__main__':
 	sol = Solution()
-	A = [[1,0,0], [0,0,0], [0,0,0]]
+	A = [[0,0,0], [0,0,0], [0,0,0]]
 	print(sol.uniquePathsWithObstacles(A))
