@@ -47,12 +47,10 @@ class Solution:
 	def rotate(self, A):
 		A = self.transpose(A)		
 		A = self.swap_cols(A)
-		# A= self.transpose(A)
 		return A
 
 
 if __name__ == '__main__':
 	sol = Solution()
 	A = [[1,2,3], [4,5,6], [7,8,9]]
-	# A = [[1,2], [3,4]]
 	sol.rotate(A)
