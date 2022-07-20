@@ -66,9 +66,6 @@ return empty array [].
 
 
 class Solution:
-	"""
-	returns smallest sum
-	"""
 	def flip(self, A):
 		A = [-1 if ele=='1' else 1 for ele in A]
 
