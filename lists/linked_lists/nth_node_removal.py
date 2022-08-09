@@ -23,8 +23,6 @@ class LinkedList:
 				curr_node.next = node
 				curr_node = curr_node.next
 
-
-
 class Solution:
 	# @param A : head node of linked list
 	# @param B : integer
@@ -50,7 +48,7 @@ class Solution:
 				ptr2 = ptr2.next
 				ptr1 = ptr1.next
 			prev.next = ptr1.next
-			
+
 		return A
 
 if __name__ == '__main__':
