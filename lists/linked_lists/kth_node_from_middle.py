@@ -1,5 +1,5 @@
 '''
-Problem link :- https://www.interviewbit.com/problems/remove-nth-node-from-list-end/
+Problem link :- https://www.interviewbit.com/problems/kth-node-from-middle/
 '''
 
 class ListNode:
@@ -27,8 +27,14 @@ class Solution:
 	# @param A : head node of linked list
 	# @param B : integer
 	# @return the head node in the linked list
-	def removeNthFromEnd(self, A, B):
-		ptr1, index, ptr2 = A, 1, A
+	def solve(self, A, B):
+		ptr1, index, ptr2, head, N = A, 1, A, A, 0
+		
+		while head:
+			head = head.next
+			N += 1    
+		
+		middle = N//2 + 1
 		
 		# first initiliaze the ptrs
 		while ptr2:
@@ -38,23 +44,25 @@ class Solution:
 				break
 		
 		if not ptr2:
-			#remove head node
-			A = A.next
+			A = -1
 		else:
-			#remove nth node
-			prev = None
 			while ptr2:
-				prev = ptr1
+				if index == middle:
+					break
 				ptr2 = ptr2.next
 				ptr1 = ptr1.next
-			prev.next = ptr1.next
+				index += 1
+			if ptr2:
+				A = ptr1.val
+			else:
+				A = -1
 
 		return A
 
 if __name__ == '__main__':
-	A = [1, 2, 3, 4, 5]
+	A = [ 725, 479, 359, 963, 465, 706, 146, 282, 828, 962 ]
 	link_list = LinkedList(A)
 	B = 2
 	sol = Solution()
-	out = sol.removeNthFromEnd(link_list.root, B)
+	out = sol.solve(link_list.root, B)
 	temp = 0
