@@ -15,7 +15,7 @@ class Solution:
 			dp[i] = dp[i-1] + dp[i-2]
 		
 		return dp[-1]
-		
+
 
 if __name__ == '__main__':
 	sol = Solution()
