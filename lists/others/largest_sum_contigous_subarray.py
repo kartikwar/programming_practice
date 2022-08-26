@@ -7,8 +7,6 @@ class Solution:
 		max_sum = 0
 		start = -1
 		end = -1
-		mstart = -1
-		mend = -1
 
 		for i in range(len(A)):
 			curr_sum = curr_sum + A[i]
@@ -19,8 +17,6 @@ class Solution:
 
 			if curr_sum > max_sum:
 				end = i
-				mstart = start
-				mend = end
 				max_sum = curr_sum
 			
 			if curr_sum < 0:
