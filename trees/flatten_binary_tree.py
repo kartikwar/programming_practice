@@ -12,8 +12,7 @@ class BinarySearchTree():
         self.root = None
         self.values = values
         self.create_tree()
-        
-    
+         
     def insert_node(self, root, node):
         if root is None:
             root = node
@@ -25,14 +24,11 @@ class BinarySearchTree():
                 root.right = self.insert_node(root.right, node)
         return  root
     
-    
-
     def create_tree(self):
         for value in self.values:
             node = BinarySearchNode(value)
             #update tree
             self.root = self.insert_node(root=self.root, node=node)
-
 
     def flatten_helper(self, node, prev):
         if node is None:
@@ -50,7 +46,6 @@ class BinarySearchTree():
         prev = node
 
         return prev
-
 
     # @param A : root node of tree
     # @return the root node in the tree
