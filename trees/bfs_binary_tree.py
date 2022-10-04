@@ -75,5 +75,3 @@ if __name__ == '__main__':
 
 	print("Level order traversal of binary tree is -")
 	printLevelOrder(root)
-
-	# This code is contributed by Nikhil Kumar Singh(nickzuck_007)
