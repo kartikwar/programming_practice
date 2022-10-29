@@ -22,8 +22,6 @@ and right part of the array after that?
 
 '''
 
-from venv import create
-
 
 class BinarySearchNode():
   def __init__(self, value):
@@ -65,6 +63,6 @@ class BalancedBST():
     
 
 if __name__ == '__main__':
-    values = [1,2,3,4,5]
+    values = [1]
     tree = BalancedBST(values)
     temp = 0
