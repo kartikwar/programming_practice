@@ -2,46 +2,28 @@
 
 
 class Solution:
-	# @param A : tuple of integers
+	# @param A : list of integers
 	# @return an integer
 	def solve(self, A):
 		ans = 0
-		suffix = [0] * len(A)
+		if len(A) < 2:
+			ans = len(A)
+			return ans
 
-		for i in range(len(suffix)-1, -1, -1):
-			if i + 2 < len(A):
-				suffix[i] = A[i] + suffix[i+2]
+		odd = sum([A[i] for i in range(1, len(A), 2)])
+		even = sum([A[i] for i in range(0, len(A), 2)])
+		carry_val = 0
+		# counter = 0
+
+		for ind, value in enumerate(A):
+			if ind % 2 == 0:
+				#if current index is even
+				even = even - value + carry_val
 			else:
-				suffix[i] = A[i]
-		
-		odd, even = 0, 0
-
-		for i in range(len(A)):
-
-			if i + 1 < len(A):
-				suffix_1 = suffix[i+1]
-			else:
-				suffix_1 = 0
-			
-			if i + 2 < len(A):
-				suffix_2 = suffix[i+2]
-			else:
-				suffix_2 = 0
-
-			if (i + 1) % 2 == 0:
-				even_term = suffix_2 + even
-				odd_term = suffix_1 + odd
-			else:
-				even_term = suffix_1 + even
-				odd_term = suffix_2 + odd
-
-			if even_term == odd_term:
-				ans +=1
-			if i % 2 == 0:
-				even += A[i]
-			else:
-				odd += A[i]
-
+				odd = odd - value + carry_val
+			if odd == even:
+				ans += 1
+			carry_val = value
 		return ans
 
 			 
