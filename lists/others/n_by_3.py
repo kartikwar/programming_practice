@@ -1,67 +1,62 @@
-'''h1ttps://www.interviewbit.com/problems/n3-repeat-number/'''
+'''https://www.interviewbit.com/problems/n3-repeat-number/'''
 
+import sys
 
 class Solution:
+
+	def pop_min_key(self, counts):
+		min_val = sys.maxsize
+		min_idx = None
+
+		for key, val in counts.items():
+			if val < min_val:
+				min_val = val
+				min_idx = key
+
+		del counts[min_idx]
+
+		return counts
+
+
 	# @param A : tuple of integers
 	# @return an integer
 	def repeatedNumber(self, A):
-		tracker = []
-		counts = []
-		for num in A:
-			if num in tracker:
-				index = tracker.index(num)
-				counts[index] +=1
+		status = -1
+		counts = {}
+		for i in A:
+			if i in counts:
+				counts[i] += 1
 			else:
-				if len(tracker) < 2:
-					tracker.append(num)
-					counts.append(1)
-				else:
-					num_idx = 0
+				#check length of counts
+				if len(counts.keys())==3:
+					counts = self.pop_min_key(counts)
+				
+				counts[i] = 1
 
-					while num_idx < len(tracker):
-					# for num_idx in range(len(tracker)):
-						counts[num_idx] -=1
+		# counts = self.pop_min_key(counts)
 
-						if counts[num_idx] == 0:
-							tracker.pop(num_idx)
-							counts.pop(num_idx)
-						
-						else:
-							num_idx += 1
+		# high_vals = list(counts.keys())
 
-					if len(tracker) <2:
-						tracker.append(num)
-						counts.append(1)
-		# temp = 0
+		# count_1 = 0
+		# count_2 = 0
 
-		if len(tracker):
-			# if len(tracker) <2:
-			# 	tracker.append(None)
+		for key, val in counts.items():
+			counts[key] = 0
 
-			counts = [0 for i in range(len(tracker))]
 
-			for idx in range(len(tracker)):
-				for ele in A:
-					if ele == tracker[idx]:
-						counts[idx] += 1
+		for i in A:
+			if i in counts:
+				counts[i] += 1
 
-			for idx in range(len(counts)):
-				ele = tracker[idx]
-				count = counts[idx]
+		for key, val in counts.items():
+			if val > len(A)/3:
+				status = key
+				break
 
-				if count > len(A)/3:
-					return ele
-
-			else:
-				return -1
-
-		else:
-			return -1
-
-			 
+		return status			 
 
 
 if __name__ == '__main__':
 	sol = Solution()
-	A =  [ 1, 1, 1, 2, 3, 5, 7 ]
+	A =  [ 1000441, 1000441, 1000994 ]
 	print(sol.repeatedNumber(A))
