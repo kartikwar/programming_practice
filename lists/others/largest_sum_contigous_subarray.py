@@ -1,38 +1,30 @@
+'''Maximum Subarray Sum'''
+
+
 class Solution:
-	"""
-	returns smallest sum
-	"""
-	def solve(self, A):
-		curr_sum = 0
-		max_sum = 0
-		start = -1
-		end = -1
+    """
+    Returns the maximum subarray sum (Kadane's Algorithm).
+    """
 
-		for i in range(len(A)):
-			curr_sum = curr_sum + A[i]
+    def solve(self, A):
+        max_sum = float('-inf')  # Handle all negative numbers correctly
+        curr_sum = 0
 
-			if curr_sum > 0:
-				if start ==-1:
-					start = i
+        for num in A:
+            curr_sum += num  # Add the current number
 
-			if curr_sum > max_sum:
-				end = i
-				max_sum = curr_sum
-			
-			if curr_sum < 0:
-				start = -1
-				end = -1
-				curr_sum = 0
+            # Update max_sum
+            max_sum = max(max_sum, curr_sum)
 
-		return max_sum, start, end
+            # Reset curr_sum if it goes below zero
+            if curr_sum < 0:
+                curr_sum = 0
 
-
+        return max_sum
 
 
 if __name__ == "__main__":
-	A = [3, 4, 2, -3, -1, 7, -5]
-	# A = [1, -1, -1, -1, 1,1,1,-1,1,1,1,-1,1]
-	# A = []
-	sol = Solution()
-	out, start_index, end_index = sol.solve(A=A)
-	print(out)
+    A = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
+    sol = Solution()
+    out = sol.solve(A=A)
+    print(out)

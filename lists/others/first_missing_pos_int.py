@@ -1,30 +1,27 @@
-'''https://www.interviewbit.com/problems/first-missing-integer/'''
 class Solution:
     # @param A : list of integers
     # @return an integer
     def firstMissingPositive(self, A):
+        n = len(A)
+
+        # Swap elements to their correct positions
         i = 0
-        last_val = len(A) + 1
-        while i < len(A):
-            if A[i] > 0 and A[i] < last_val:
-                # A[i] should be at A[i]-1
-                if A[i] != A[A[i] -1]:
-                    # print('swapping positions ' + str(i) + ' and ' + str(A[i] -1))
-                    # print('list is ' + str(A))
-                    # print(A[i])
-                    # print(A[A[i]-1])
-                    temp = A[i]
-                    A[i] = A[A[i] - 1]
-                    A[temp -1 ] = temp
-                    i -= 1
-            i+=1
-        for i in range(len(A)):
+        while i < n:
+            correct_pos = A[i] - 1  # Where A[i] should be
+            if 1 <= A[i] <= n and A[i] != A[correct_pos]:  # Valid number and needs swapping
+                A[i], A[correct_pos] = A[correct_pos], A[i]  # Swap
+            else:
+                i += 1  # Move to next number only when no swap is needed
+
+        # Find first missing positive
+        for i in range(n):
             if A[i] != i + 1:
                 return i + 1
-        return last_val
-        temp = 0
+
+        return n + 1  # If all are in place, return n+1
+
 
 if __name__ == '__main__':
     sol = Solution()
-    A = [3,4,-1,1]
-    print(sol.firstMissingPositive(A))
+    A = [2, 1, 4, 3, 4, 5]
+    print(sol.firstMissingPositive(A))  # Expected Output: 6
