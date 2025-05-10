@@ -1,79 +1,57 @@
 """
-find the interesection of two lists
-for ex:- 
-Input : 
-lst1 = [15, 9, 10, 56, 23, 78, 5, 4, 9]
-lst2 = [9, 4, 5, 36, 47, 26, 10, 45, 87]
-Output :
-[9, 10, 4, 5]
+Problem Link:- https://leetcode.com/explore/interview/card/top-interview-questions-easy/92/array/674/
 """
 
-#time complexity is 0(n^2)
-def find_interesection(lst1, lst2):
-    # return [ele for ele in lst1 if ele in lst2]
+from collections import Counter
+
+# Solution using lookup
+# time:- complexity O(m+n), Space Complexity:- O(min(n,m))
+
+
+def intersect(nums1, nums2):
+    counts = Counter(nums1)
     result = []
-    for ele in lst1:
-        if ele in lst2:
-            if ele not in result:
-                result.append(ele)
+
+    for num in nums2:
+        if counts[num] > 0:
+            result.append(num)
+            counts[num] -= 1
+
     return result
 
-def binary_search(ele, lst):
-    found = False
-    start = 0
-    end = len(lst) -1
-    while start <= end:
-        index = int((start + end)/2)
-        if ele < lst[index]:
-            end = index -1
-        elif ele > lst[index]:
-            start  = index + 1
+# Solution with sorting
+# Time Complexity:- O(n log n + m log m), Space Complexity:- O(1)
+
+
+def intersect(nums1, nums2):
+    nums1 = sorted(nums1)
+    nums2 = sorted(nums2)
+
+    i = 0
+    j = 0
+
+    result = []
+
+    while (i < len(nums1)) and (j < len(nums2)):
+        num1 = nums1[i]
+        num2 = nums2[j]
+
+        if num1 == num2:
+            i += 1
+            j += 1
+            result.append(num1)
+
+        elif num1 > num2:
+            j += 1
+
         else:
-            found = True
-            break
-    return found
+            i += 1
 
-#time complexity is 0(nlogn)
-def find_interesection(lst1, lst2):
-    # return [ele for ele in lst1 if ele in lst2]
-    result = []
-    
-    lst1 = sorted(lst1)
-    lst2 = sorted(lst2)
-
-    for ele in lst1:
-        if binary_search(ele, lst2):
-            if ele not in result:
-                result.append(ele)
-    
     return result
-
-
-#time complexity is 0(n)
-def find_interesection(lst1, lst2):
-    # return [ele for ele in lst1 if ele in lst2]
-    result = []
-    
-    # lst1 = sorted(lst1)
-    # lst2 = sorted(lst2)
-
-    lookup = {}
-
-    for ele in lst2:
-        if ele not in lookup:
-            lookup[ele] = 0
-    
-
-    for ele in lst1:
-        if ele in lookup:
-            # if ele not in result:
-                result.append(ele)
-    
-    return list(set(result))
 
 
 if __name__ == '__main__':
-    lst1 = [15, 9, 10, 56, 23, 78, 5, 4, 9]
-    lst2 = [9, 4, 5, 36, 47, 26, 10, 45, 87]
-    output = find_interesection(lst1, lst2)
+    lst1 = [1, 2, 2, 1]
+    lst2 = [2]
+    output = intersect(lst1, lst2)
     print(output)
